@@ -1,7 +1,7 @@
 hyperwar
 ========
 
-Installation de openframeworks :
+Framework utilisé openframeworks :
 
 http://www.openframeworks.cc/
 

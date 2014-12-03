@@ -7,8 +7,8 @@ http://www.openframeworks.cc/
 
 Téléchargement de
 openFrameworks for
-code::blocks
 code::blocks (64 bit)
+(code::blocks 32bits pas testé)
 
 http://openframeworks.cc/download/
 

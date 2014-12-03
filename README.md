@@ -5,13 +5,16 @@ Installation de openframeworks :
 
 http://www.openframeworks.cc/
 
+
 IDE utilisé sur linux : 
 
 code::blocks
 
+
 guide d'installation :
 
 http://openframeworks.cc/setup/linux-codeblocks/
+
 
 Dépendances avec les addons suivants :
 

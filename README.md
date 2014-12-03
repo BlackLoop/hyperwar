@@ -1,7 +1,7 @@
 hyperwar
 ========
 
-Framework utilisé openframeworks :
+Utilisation de openframeworks :
 
 http://www.openframeworks.cc/
 

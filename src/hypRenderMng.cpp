@@ -17,7 +17,7 @@ hypRenderMng::~hypRenderMng()
 }
 
 void hypRenderMng::Setup() {
- hypAssetMng::Instance()->LoadAsset("test.png");
+ //hypAssetMng::Instance()->LoadAsset("test.png");
 }
 
 void hypRenderMng::Update()

@@ -5,6 +5,13 @@ Utilisation de openframeworks :
 
 http://www.openframeworks.cc/
 
+Téléchargement de
+openFrameworks for
+code::blocks
+code::blocks (64 bit)
+
+http://openframeworks.cc/download/
+
 
 IDE utilisé sur linux : 
 

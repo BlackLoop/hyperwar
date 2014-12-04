@@ -4,6 +4,7 @@
 #include "ofApp.h"
 
 #include "Singleton.h"
+#include "hypAnimationMng.h"
 
 #include <map>
 #include <string>
@@ -24,6 +25,8 @@ public:
 private:
 	void RenderBackground();
 	void RenderAnimations();
+
+	hypAnimationMng m_hypAnimationMng;
 };
 
 typedef Singleton<hypRenderMng> hypRenderMngSingleton;

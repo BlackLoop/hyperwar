@@ -18,11 +18,13 @@ hypRenderMng::~hypRenderMng()
 
 void hypRenderMng::Setup() {
  //hypAssetMng::Instance()->LoadAsset("test.png");
+
+ m_hypAnimationMng.Setup();
 }
 
 void hypRenderMng::Update()
 {
-
+    m_hypAnimationMng.Update();
 }
 
 void hypRenderMng::Render()
@@ -50,6 +52,7 @@ void hypRenderMng::RenderStandby()
 void hypRenderMng::RenderPlay()
 {
     RenderBackground();
+    m_hypAnimationMng.Render();
 }
 
 void hypRenderMng::RenderBackground()

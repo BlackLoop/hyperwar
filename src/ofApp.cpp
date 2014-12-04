@@ -21,7 +21,8 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if( key == OF_KEY_UP)    { hypRenderMngSingleton::Instance()->m_zoom += 50.f; cout<<"zoom "<<hypRenderMngSingleton::Instance()->m_zoom<<endl;  }
+    if( key == OF_KEY_DOWN)  { hypRenderMngSingleton::Instance()->m_zoom -= 50.f;  cout<<"zoom "<<hypRenderMngSingleton::Instance()->m_zoom<<endl; }
 }
 
 //--------------------------------------------------------------
@@ -31,7 +32,8 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-
+    hypRenderMng::Instance()->m_mouseX = x;
+    hypRenderMng::Instance()->m_mouseY = y;
 }
 
 //--------------------------------------------------------------
@@ -41,6 +43,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+
 
 }
 

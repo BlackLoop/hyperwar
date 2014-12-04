@@ -6,7 +6,7 @@
 		<Option makefile_is_custom="1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="addons/;src/;build config/;addons/ofxNSWindower/src/;addons/ofxXmlSettings/libs/;addons/ofxGamepad/libs/wgois/include/win32/;addons/ofxGamepad/libs/wgois/include/;addons/ofxOsc/src/;addons/ofxOsc/libs/oscpack/src/ip/posix/;addons/ofxOsc/libs/oscpack/src/ip/;addons/ofxGamepad/src/;addons/ofxXmlSettings/src/;addons/ofxOsc/libs/oscpack/src/osc/;addons/ofxOsc/libs/oscpack/src/ip/win32/;addons/ofxGamepad/libs/wgois/include/mac/;addons/ofxGamepad/libs/wgois/include/linux/;" />
+		<Option virtualFolders="addons/;src/;build config/;addons/ofxNSWindower/src/;addons/ofxXmlSettings/libs/;addons/ofxGamepad/libs/wgois/include/win32/;addons/ofxGamepad/libs/wgois/include/;addons/ofxOsc/src/;addons/ofxOsc/libs/oscpack/src/ip/posix/;addons/ofxOsc/libs/oscpack/src/ip/;addons/ofxGamepad/src/;addons/ofxXmlSettings/src/;addons/ofxOsc/libs/oscpack/src/osc/;addons/ofxOsc/libs/oscpack/src/ip/win32/;addons/ofxGamepad/libs/wgois/include/mac/;addons/ofxGamepad/libs/wgois/include/linux/;src/flocking/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/$(PROJECT_NAME)_debug" prefix_auto="1" extension_auto="1" />
@@ -324,13 +324,16 @@
 		<Unit filename="src/hypAssetMng.h">
 			<Option virtualFolder="src/" />
 		</Unit>
+		<Unit filename="src/hypFlockMng.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypFlockMng.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="src/hypGameloop.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypGameloop.h">
-			<Option virtualFolder="src/" />
-		</Unit>
-		<Unit filename="src/hypRenderMng.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypRenderMng.h">

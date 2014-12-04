@@ -22,11 +22,24 @@ public:
 
 	void Update();
 
+    int m_mouseX;
+    int m_mouseY;
+
+    float Constrain(float amt, float low, float high);
+
+    float m_zoom;
+
 private:
 	void RenderBackground();
-	void RenderAnimations();
 
 	hypAnimationMng m_hypAnimationMng;
+	void RenderAnimations();
+    void RenderFlock();
+
+    void LoadbackgroundImages(string dirName);
+    void LoadSequencesImages(string dirName);
+
+    std::vector< ofImage > m_backgroundImages;
 };
 
 typedef Singleton<hypRenderMng> hypRenderMngSingleton;

@@ -2,8 +2,8 @@
 
 using namespace std;
 
-//ofVec3f lastPadCurseur;
-//ofVec3f padCurseur;
+ofVec3f lastPadCurseur;
+ofVec3f padCurseur;
 
 hypComMng::hypComMng()
 {
@@ -94,7 +94,6 @@ ofVec2f scrollVector (ofVec2f point, ofVec2f center) {
 void hypComMng::processCoordinates(){
     // 0077|0038|0  2  2  3| Example UART data formatted as follows : XXXX|YYYY|ZZZZ
     // 0123 5678 10 11 12 13 Indexes of digits, XXXX is 3 2 1, LSB
-
     padCurseur.x = trame[3] - 48 + (trame[2] - 48) * 10 + (trame[1] - 48) * 100;
     padCurseur.y = trame[8] - 48 + (trame[7] - 48) * 10 + (trame[6] - 48) * 100;
     padCurseur.z = trame[13] - 48 + (trame[12] - 48) * 10 + (trame[11] - 48) * 100;

@@ -20,7 +20,6 @@ public:
 	void Setup();
 	void Update();
 
-
 private:
 	EStage m_eStage;
 };

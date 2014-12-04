@@ -23,6 +23,10 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if( key == OF_KEY_UP)    { hypRenderMngSingleton::Instance()->m_zoom += 50.f; cout<<"zoom "<<hypRenderMngSingleton::Instance()->m_zoom<<endl;  }
     if( key == OF_KEY_DOWN)  { hypRenderMngSingleton::Instance()->m_zoom -= 50.f;  cout<<"zoom "<<hypRenderMngSingleton::Instance()->m_zoom<<endl; }
+    if( key == 'f' )
+    {
+        ofToggleFullscreen();
+    }
 }
 
 //--------------------------------------------------------------

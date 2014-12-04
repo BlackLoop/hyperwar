@@ -342,6 +342,12 @@
 		<Unit filename="src/hypFlockMng.h">
 			<Option virtualFolder="src/" />
 		</Unit>
+		<Unit filename="src/hypGamePad.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypGamePad.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="src/hypGameloop.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>

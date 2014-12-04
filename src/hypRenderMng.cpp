@@ -19,6 +19,7 @@ void hypRenderMng::Setup() {
  //hypAssetMng::Instance()->LoadAsset("test.png");
 
  m_hypAnimationMng.Setup();
+ m_hypGamePad.setup();
  //hypAssetMng::Instance()->LoadAsset("test.png");
 
     ofSetWindowTitle("H.Y.P.E.R.W.A.R");
@@ -55,6 +56,10 @@ void hypRenderMng::Render()
         }
         break;
 	}
+
+#ifdef _DEBUG
+	m_hypGamePad.draw();
+#endif
 }
 
 void hypRenderMng::RenderStandby()

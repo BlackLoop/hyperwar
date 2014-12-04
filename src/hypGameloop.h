@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "Singleton.h"
 #include <iostream>
 
@@ -22,6 +23,7 @@ public:
 
 private:
 	EStage m_eStage;
+
 };
 
 typedef Singleton<hypGameloop> hypGameloopSingleton;

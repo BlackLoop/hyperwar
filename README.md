@@ -41,4 +41,7 @@ Mettre repo https://github.com/BlackLoop/hyperwar.git dans le répertoire myApps
 
 ex : home/colin/dev/of_v0.8.4_linux64_release/apps/myApps/hyperwar
 
+Sons : 
+https://drive.google.com/file/d/0B_A6WCKEp7vraWlqaUZ1clpUc2s/view?usp=sharing
 
+à mettre dans bin/data/sons/name.wav

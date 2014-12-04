@@ -17,6 +17,7 @@ hypRenderMng::~hypRenderMng()
 }
 
 void hypRenderMng::Setup() {
+<<<<<<< HEAD
  //hypAssetMng::Instance()->LoadAsset("test.png");
 
     ofSetWindowTitle("H.Y.P.E.R.W.A.R");
@@ -30,6 +31,9 @@ void hypRenderMng::Setup() {
 
  //hypRenderMng::warcam = new ofCamera();
 
+=======
+ //hypAssetMng::Instance()->LoadAsset("test.png");
+>>>>>>> branch 'master' of https://github.com/BlackLoop/hyperwar.git
 }
 
 void hypRenderMng::Update()

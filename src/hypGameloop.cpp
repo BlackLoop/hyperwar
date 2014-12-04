@@ -1,7 +1,8 @@
 #include "hypGameloop.h"
 #include  "hypSoundMng.h"
 
-hypGameloop::hypGameloop()
+hypGameloop::hypGameloop() :
+    	m_eStage(EStage_PLAY)
 {
 
 }
@@ -14,9 +15,9 @@ hypGameloop::~hypGameloop()
 void hypGameloop::Setup()
 {
 	hypSoundMngSingleton::Instance()->Setup();
+<<<<<<< HEAD
 
-	//m_eStage = EStage_STANDBY;
-	m_eStage = EStage_PLAY;
+	m_eStage = EStage_STANDBY;
 }
 /*
 hypGameloop::EStage hypGameloop::GetEStage()
@@ -26,6 +27,7 @@ hypGameloop::EStage hypGameloop::GetEStage()
 */
 void hypGameloop::Update()
 {
+    hypSoundMng::Instance()->Update();
 	switch (m_eStage)
 	{
 		case EStage_STANDBY:

@@ -39,6 +39,9 @@ void hypRenderMng::Update()
 
 void hypRenderMng::Render()
 {
+    ofClear(0, 0, 0, 0);
+
+
     switch (hypGameloop::Instance()->GetEStage())
 	{
         case EStage_STANDBY:
@@ -61,18 +64,15 @@ void hypRenderMng::RenderStandby()
 
 void hypRenderMng::RenderPlay()
 {
-    RenderBackground();
-    
 
-    ofClear(0, 0, 0, 0);
 	//ofEnableLighting();
 
     ofPushMatrix();
     ofTranslate( m_mouseX ,m_mouseY, m_zoom);
     RenderBackground();
-    m_hypAnimationMng.Render();
+    RenderAnimations();
     ofPopMatrix();
-    
+
 }
 
 void hypRenderMng::RenderBackground()
@@ -82,7 +82,8 @@ void hypRenderMng::RenderBackground()
      int TILE_WIDTH = 1920;
      int TILE_HEIGHT = 1360;
 
-    ofTranslate( -3*TILE_WIDTH/2, -2*TILE_HEIGHT/2 );
+    ofPushMatrix();
+    //ofTranslate( -3*TILE_WIDTH/2, -2*TILE_HEIGHT/2 );
     for(int j=0; j < Y_TILES_NB; j++) {
         for(int i=0; i < X_TILES_NB; i++) {
             int x = TILE_WIDTH  * i;
@@ -96,12 +97,12 @@ void hypRenderMng::RenderBackground()
 
 void hypRenderMng::RenderAnimations()
 {
-
+    m_hypAnimationMng.Render();
 }
 
 void hypRenderMng::RenderFlock()
 {
- hypFlockMng::Instance()->Render();
+    hypFlockMng::Instance()->Render();
 }
 
 void hypRenderMng::LoadbackgroundImages(string dirName)

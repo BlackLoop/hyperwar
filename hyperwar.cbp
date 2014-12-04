@@ -318,10 +318,22 @@
 		<Unit filename="src/Singleton.h">
 			<Option virtualFolder="src/" />
 		</Unit>
+		<Unit filename="src/hypAnimationMng.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypAnimationMng.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="src/hypAssetMng.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypAssetMng.h">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypComMng.cpp">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypComMng.h">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypFlockMng.cpp">
@@ -334,6 +346,9 @@
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypGameloop.h">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypRenderMng.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypRenderMng.h">

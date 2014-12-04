@@ -15,9 +15,7 @@ hypGameloop::~hypGameloop()
 void hypGameloop::Setup()
 {
 	hypSoundMngSingleton::Instance()->Setup();
-<<<<<<< HEAD
 
-	m_eStage = EStage_STANDBY;
 }
 /*
 hypGameloop::EStage hypGameloop::GetEStage()

@@ -1,5 +1,4 @@
 #include "hypRenderMng.h"
-
 #include "hypAssetMng.h"
 #include "hypGameloop.h"
 #include "hypFlockMng.h"
@@ -17,23 +16,17 @@ hypRenderMng::~hypRenderMng()
 }
 
 void hypRenderMng::Setup() {
-<<<<<<< HEAD
  //hypAssetMng::Instance()->LoadAsset("test.png");
 
     ofSetWindowTitle("H.Y.P.E.R.W.A.R");
 	ofSetVerticalSync(true);
 	ofEnableAlphaBlending();
-	ofEnableSmoothing();
+ 	ofEnableSmoothing();
 
- hypRenderMng::LoadbackgroundImages("background");
+	hypRenderMng::LoadbackgroundImages("background");
 
- hypFlockMng::Instance()->Setup();
+	hypFlockMng::Instance()->Setup();
 
- //hypRenderMng::warcam = new ofCamera();
-
-=======
- //hypAssetMng::Instance()->LoadAsset("test.png");
->>>>>>> branch 'master' of https://github.com/BlackLoop/hyperwar.git
 }
 
 void hypRenderMng::Update()

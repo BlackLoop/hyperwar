@@ -26,6 +26,7 @@ void hypRenderMng::Setup() {
 	ofSetVerticalSync(true);
 	ofEnableAlphaBlending();
  	ofEnableSmoothing();
+    ofSetFullscreen(true);
 
 	hypRenderMng::LoadbackgroundImages("background");
 

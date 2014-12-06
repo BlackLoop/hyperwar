@@ -5,6 +5,9 @@
 
 using namespace std;
 
+ofVec2f hypRenderMng::m_poscamera = ofVec2f();
+
+
 hypRenderMng::hypRenderMng():m_zoom(300.f)
 {
 
@@ -31,6 +34,9 @@ void hypRenderMng::Setup() {
 	hypRenderMng::LoadbackgroundImages("background");
 
 	hypFlockMng::Instance()->Setup();
+
+	hypAssetMng::Instance()->LoadAsset("jumelles.png");
+
 }
 
 void hypRenderMng::Update()
@@ -73,12 +79,74 @@ void hypRenderMng::RenderPlay()
 
 	//ofEnableLighting();
 
-    ofPushMatrix();
-    ofTranslate( m_mouseX ,m_mouseY, m_zoom);
-    RenderBackground();
-    RenderAnimations();
-    ofPopMatrix();
+    static float s_fLastMouseX = 0.f;
+    static float s_fLastMouseY = 0.f;
 
+	float fCenterX =  ofGetWindowWidth() / 2.f; //1024.f / 2.0f;
+	float fCenterY = ofGetWindowHeight() / 2.f ; //768.f / 2.0f;
+
+    float fMouseFromCenterX =  m_mouseX - fCenterX;
+    float fMouseFromCenterY =  m_mouseY - fCenterY;
+
+    float fMouseXNorm = (2.f*fMouseFromCenterX) / ofGetWindowWidth() ; //1024.f;
+    float fMouseYNorm = (2.f*fMouseFromCenterY) / ofGetWindowHeight(); //768.f;
+
+    float I_BKGND_WIDTH  = 8.f*1920.f;
+    float I_BKGND_HEIGHT = 8.f*1360.f;
+
+    float fOverflowX = 8.f*1920.f;// - 1024;
+    float fOverflowY = 8.f*1360.f;// - 768;
+
+    static float s_fCurrentX = -fOverflowX/2.f;
+	static float s_fCurrentY = -fOverflowY/2.f;
+
+    static float s_fTargetX = 0.f;
+    static float s_fTargetY = 0.f;
+
+    if (m_mouseX != s_fLastMouseX || m_mouseY != s_fLastMouseY) {
+        s_fTargetX = -fOverflowX/2.f + fMouseXNorm * I_BKGND_WIDTH/2.0f;
+        s_fTargetY = -fOverflowY/2.f + fMouseYNorm * I_BKGND_HEIGHT/2.0f;
+    }
+
+    RenderOverlay();
+    ofPushMatrix();
+        ofVec2f vDist(s_fTargetX - s_fCurrentX,
+                      s_fTargetX - s_fCurrentY);
+
+        float factorSpeed = 10.f;
+        if (vDist.length() > 1.f) {
+
+            if (s_fCurrentX < s_fTargetX) {
+                s_fCurrentX += -factorSpeed;
+            }
+            else {
+                s_fCurrentX += factorSpeed;
+            }
+
+            if (s_fCurrentY < s_fTargetY) {
+                s_fCurrentY += -factorSpeed;
+            }
+            else {
+                s_fCurrentY += factorSpeed;
+            }
+
+        }
+        //cout<<"s_fCurrentX"<<s_fCurrentX<<", "<<"s_fCurrentY" << s_fCurrentY<<endl;
+        //s_fCurrentX = ofClamp(s_fCurrentX, factorSpeed , -1.f * I_BKGND_WIDTH - factorSpeed);
+        //s_fCurrentY = ofClamp(s_fCurrentY, factorSpeed , -1.f * I_BKGND_HEIGHT - factorSpeed);
+
+        m_poscamera = ofVec2f(s_fCurrentX, s_fCurrentY);
+        ofTranslate(s_fCurrentX,
+                    s_fCurrentY,
+                    -100.0f);
+
+        RenderBackground();
+        RenderAnimations();
+    ofPopMatrix();
+    RenderOverlay();
+
+    s_fLastMouseX = m_mouseX;
+    s_fLastMouseY = m_mouseY;
 }
 
 void hypRenderMng::RenderBackground()
@@ -136,3 +204,9 @@ void hypRenderMng::LoadSequencesImages(string dirName)
 
 }
 
+
+void hypRenderMng::RenderOverlay()
+{
+    hypAssetMng::Instance()->GetAsset("jumelles.png")->draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
+
+}

@@ -25,14 +25,16 @@ public:
 
     int m_mouseX;
     int m_mouseY;
+    static ofVec2f m_poscamera;
 
     float Constrain(float amt, float low, float high);
 
     float m_zoom;
 
+
 private:
 	void RenderBackground();
-
+    void RenderOverlay();
 	hypAnimationMng m_hypAnimationMng;
 	void RenderAnimations();
     void RenderFlock();

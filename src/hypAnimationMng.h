@@ -27,10 +27,16 @@ private:
 
         }
         void  Render() {
-         m_movie.draw(m_pos.x, m_pos.y);
+            ofPushMatrix();
+                ofTranslate( m_pos.x, m_pos.y, 0);
+                //scale here
+                //translate here
+                m_movie.draw(-0.5f*m_movie.getWidth(), -0.5f * m_movie.getHeight()); // move pivot to centre
+            ofPopMatrix();
         }
         ofVideoPlayer m_movie;
-        ofVec2f m_pos;
+        ofVec2f m_pos; //pos center par defaut
+
     };
     std::map<std::string, ofPtr<Animation > >		m_animations;
 

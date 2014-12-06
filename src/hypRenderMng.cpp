@@ -159,8 +159,9 @@ void hypRenderMng::RenderPlay()
     //ofVec3f trans = moveMouse() + moveKbd() + pad*50.;
     //ofVec3f newtrans = moveEase( trans, 0.f, 0.f, F_TRANS_DELTA );
 
+   m_poscamera = ofVec2f(s_fCurrentX, s_fCurrentY);
 
-    ofPushMatrix();
+   ofPushMatrix();
         //ofTranslate( trnas );
         ofTranslate(s_fCurrentX,
                     s_fCurrentY,

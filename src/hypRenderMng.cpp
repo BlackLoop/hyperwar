@@ -132,8 +132,8 @@ void hypRenderMng::RenderPlay()
 
         }
         //cout<<"s_fCurrentX"<<s_fCurrentX<<", "<<"s_fCurrentY" << s_fCurrentY<<endl;
-        //s_fCurrentX = ofClamp(s_fCurrentX, factorSpeed , -1.f * I_BKGND_WIDTH - factorSpeed);
-        //s_fCurrentY = ofClamp(s_fCurrentY, factorSpeed , -1.f * I_BKGND_HEIGHT - factorSpeed);
+        s_fCurrentX = ofClamp(s_fCurrentX, -1.f * I_BKGND_WIDTH + 1920, -12.f);
+        s_fCurrentY = ofClamp(s_fCurrentY, -1.f * I_BKGND_HEIGHT + 1360, -12.f);
 
         m_poscamera = ofVec2f(s_fCurrentX, s_fCurrentY);
         ofTranslate(s_fCurrentX,

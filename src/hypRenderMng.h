@@ -29,6 +29,19 @@ public:
     float Constrain(float amt, float low, float high);
 
     float m_zoom;
+    //ofVec3f absPosition;
+    //ofVec3f relPosition;
+
+/*
+    void        setPosX( float );
+    void        setPosY( float );
+    void        setPosZ( float );
+*/
+
+    ofVec3f moveMouse();
+    ofVec3f moveKbd();
+    ofVec3f move3DPad();
+    ofVec3f moveEase( ofVec3f toEase, float factXY, float factZ, float delta);
 
 private:
 	void RenderBackground();
@@ -42,6 +55,7 @@ private:
 
     std::vector< ofImage > m_backgroundImages;
     hypGamePad m_hypGamePad;
+    std::list <ofVec3f> padVals;
 };
 
 typedef Singleton<hypRenderMng> hypRenderMngSingleton;

@@ -336,6 +336,9 @@
 		<Unit filename="src/hypComMng.h">
 			<Option virtualFolder="src/" />
 		</Unit>
+		<Unit filename="src/hypComThread.h">
+			<Option virtualFolder="src/" />
+		</Unit>
 		<Unit filename="src/hypFlockMng.cpp">
 			<Option virtualFolder="src/" />
 		</Unit>
@@ -373,6 +376,9 @@
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/ofApp.h">
+			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/settings.h">
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Extensions>

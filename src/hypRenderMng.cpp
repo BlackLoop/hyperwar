@@ -1,11 +1,16 @@
 #include "hypRenderMng.h"
 #include "hypAssetMng.h"
 #include "hypGameloop.h"
+#include "hypComMng.h"
 #include "hypFlockMng.h"
+#include "settings.h"
 
 using namespace std;
 
-hypRenderMng::hypRenderMng():m_zoom(300.f)
+extern ofVec2f  globalScroll;
+extern double   globalZoom;
+
+hypRenderMng::hypRenderMng():m_zoom(50.f)//, absPosition(ofVec3f(BACKGROUND_SIZE_X/2, BACKGROUND_SIZE_Y/2, 100))
 {
 
 }
@@ -18,15 +23,14 @@ hypRenderMng::~hypRenderMng()
 void hypRenderMng::Setup() {
  //hypAssetMng::Instance()->LoadAsset("test.png");
 
- m_hypAnimationMng.Setup();
- m_hypGamePad.setup();
- //hypAssetMng::Instance()->LoadAsset("test.png");
+    m_hypAnimationMng.Setup();
+    m_hypGamePad.setup();
 
     ofSetWindowTitle("H.Y.P.E.R.W.A.R");
 	ofSetVerticalSync(true);
 	ofEnableAlphaBlending();
  	ofEnableSmoothing();
-    ofSetFullscreen(true);
+    //ofSetFullscreen(true);
 
 	hypRenderMng::LoadbackgroundImages("background");
 
@@ -70,66 +74,63 @@ void hypRenderMng::RenderStandby()
 
 void hypRenderMng::RenderPlay()
 {
+/* ALT VERSION - MULTI-INTERFACES
+    //calculate absolute position from relative inputs
+    float moveFactor = 1.f;
 
-	//ofEnableLighting();
-
-    static float s_fLastMouseX = 0.f;
-    static float s_fLastMouseY = 0.f;
-
-	float fCenterX = 1024.f / 2.0f;
-	float fCenterY = 768.f / 2.0f;
-
-    float fMouseFromCenterX =  m_mouseX - fCenterX;
-    float fMouseFromCenterY =  m_mouseY - fCenterY;
-
-    float fMouseXNorm = (2.f*fMouseFromCenterX) / 1024.f;
-    float fMouseYNorm = (2.f*fMouseFromCenterY) / 768.f;
-
-    float I_BKGND_WIDTH  = 8*1920;
-    float I_BKGND_HEIGHT = 8*1360;
-
-    float fOverflowX = 8*1920;// - 1024;
-    float fOverflowY = 8*1360;// - 768;
-
-    static float s_fCurrentX = -fOverflowX/2.f;
-	static float s_fCurrentY = -fOverflowY/2.f;
-
-    static float s_fTargetX = 0.f;
-    static float s_fTargetY = 0.f;
-
-    if (m_mouseX != s_fLastMouseX || m_mouseY != s_fLastMouseY) {
-        s_fTargetX = -fOverflowX/2.f + fMouseXNorm * I_BKGND_WIDTH/2.0f;
-        s_fTargetY = -fOverflowY/2.f + fMouseYNorm * I_BKGND_HEIGHT/2.0f;
-    }
+    absPosition += moveFactor * relPosition;
 
     ofPushMatrix();
-
-    ofVec2f vDist(s_fTargetX - s_fCurrentX,
-                  s_fTargetX - s_fCurrentY);
-
-    if (vDist.length() > 1.f) {
-
-        if (s_fCurrentX < s_fTargetX) {
-            s_fCurrentX += 1.0f;
-        }
-        else {
-            s_fCurrentX += -1.0f;
-        }
-
-        if (s_fCurrentY < s_fTargetY) {
-            s_fCurrentY += 1.0f;
-        }
-        else {
-            s_fCurrentY += -1.0f;
-        }
-    }
-
-    ofTranslate(s_fCurrentX,
-                s_fCurrentY,
-                -100.0f);
+    ofTranslate(  absPosition.x  ,  absPosition.y , m_zoom );//moveFactor * abs(absPosition.z) + 50 );   // mouse
+    //ofTranslate( m_mouseX ,m_mouseY, m_zoom);   // mouse
+    //ofTranslate( globalScroll.x , globalScroll.y, m_zoom);   // 3D Pad
 
     RenderBackground();
     RenderAnimations();
+
+    ofPopMatrix();
+*/
+
+    ofVec3f pad = hypComMngSingleton::Instance()->GetVector();
+    //cout<<"x= "<<pad.x<<", y= "<<pad.y<<", z= "<<pad.z<<endl;
+
+    padVals.push_back(pad);
+
+    // lissage du pad
+    ofVec3f moy = ofVec3f(0,0,0);
+    if(padVals.size() > 8) {
+        padVals.pop_front();
+    }
+    for( std::list<ofVec3f>::iterator it=padVals.begin(); it != padVals.end(); ++it) {
+            moy += *it;
+    }
+    moy = moy / (float)padVals.size();
+
+    s_fCurrentX -= moy.x * 20.;
+    s_fCurrentY += moy.y * 20.;
+    //s_fCurrentZ += pad.z * 10.;
+    s_zoom -= (moy.z -.5f) * 15.;
+
+    const int OVER = 300;
+    const int OVER_Z = 75;
+    const int IDEAL_Z = 300;
+
+    s_fCurrentX = ofClamp(s_fCurrentX, -BACKGROUND_SIZE_X  + 1920, OVER);
+    s_fCurrentY = ofClamp(s_fCurrentY, -BACKGROUND_SIZE_Y  + 1360, OVER);
+    s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          IDEAL_Z + OVER_Z);
+
+    //ofVec3f trans = moveMouse() + moveKbd() + pad*50.;
+    //ofVec3f newtrans = moveEase( trans, 0.f, 0.f, F_TRANS_DELTA );
+
+
+    ofPushMatrix();
+        //ofTranslate( trnas );
+        ofTranslate(s_fCurrentX,
+                    s_fCurrentY,
+                    s_zoom);
+
+        RenderBackground();
+        RenderAnimations();
     ofPopMatrix();
 
     s_fLastMouseX = m_mouseX;
@@ -138,10 +139,6 @@ void hypRenderMng::RenderPlay()
 
 void hypRenderMng::RenderBackground()
 {
-     int X_TILES_NB = 8;
-     int Y_TILES_NB = 8;
-     int TILE_WIDTH = 1920;
-     int TILE_HEIGHT = 1360;
 
     ofPushMatrix();
     //ofTranslate( -3*TILE_WIDTH/2, -2*TILE_HEIGHT/2 );
@@ -190,4 +187,70 @@ void hypRenderMng::LoadSequencesImages(string dirName)
 {
 
 }
+
+// MOTION DEVICES
+// MOUSE
+ofVec3f hypRenderMng::moveMouse()
+{
+    // Mouse
+
+
+	float fCenterX = 1024.f / 2.0f;
+	float fCenterY = 768.f / 2.0f;
+
+    float fMouseFromCenterX =  m_mouseX - fCenterX;
+    float fMouseFromCenterY =  m_mouseY - fCenterY;
+
+    float fMouseXNorm = (2.f*fMouseFromCenterX) / 1024.f;
+    float fMouseYNorm = (2.f*fMouseFromCenterY) / 768.f;
+
+    if (m_mouseX != s_fLastMouseX || m_mouseY != s_fLastMouseY) {
+        s_fTargetX = -fOverflowX/2.f + fMouseXNorm * I_BKGND_WIDTH/2.0f;
+        s_fTargetY = -fOverflowY/2.f + fMouseYNorm * I_BKGND_HEIGHT/2.0f;
+    }
+
+    return ofVec3f( s_fTargetX, s_fTargetY, 0);
+}
+
+// KEYBOARD
+ofVec3f hypRenderMng::moveKbd()
+{
+    // Zoom (from keyboard)
+	const float ZOOM_EASING = 5.0f;
+    if(s_zoom < m_zoom) { s_zoom += ZOOM_EASING; cout << s_zoom<<" s_zoom\n";}
+    if(s_zoom > m_zoom) { s_zoom -= ZOOM_EASING; cout << s_zoom<<" s_zoom\n";}
+    return ofVec3f( 0, 0, s_zoom);
+}
+
+ofVec3f hypRenderMng::move3DPad() {
+
+}
+
+// EASING FUNCTION
+ofVec3f hypRenderMng::moveEase( ofVec3f toEase, float factZ, float factXY, float delta)
+{
+    ofVec2f vDist(s_fTargetX - s_fCurrentX,
+                  s_fTargetX - s_fCurrentY);
+//    ofVec2f vDist( toEase, curPos);
+
+    if (vDist.length() > delta) {
+
+        if (s_fCurrentX < s_fTargetX) {
+            s_fCurrentX += delta;
+        }
+        else {
+            s_fCurrentX += -delta;
+        }
+
+        if (s_fCurrentY < s_fTargetY) {
+            s_fCurrentY += delta;
+        }
+        else {
+            s_fCurrentY += -delta;
+        }
+    }
+
+    return ofVec3f(s_fCurrentX, s_fCurrentY);
+}
+
 

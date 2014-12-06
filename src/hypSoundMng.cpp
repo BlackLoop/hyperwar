@@ -27,13 +27,14 @@ void hypSoundMng::Setup()
 	m_sound["fond2"]->setVolume(1.f);
 	m_sound["fond2"]->setMultiPlay(false);
 	m_sound["fond2"]->setLoop(false);
-/*
+
     m_sound["fond3"] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
 	m_sound["fond3"]->loadSound("sons/C_C - Retro Action - 03 0-0-7 Dub.wav");
 	m_sound["fond3"]->setVolume(1.f);
 	m_sound["fond3"]->setMultiPlay(false);
 	m_sound["fond3"]->setLoop(false);
 
+/*
     m_sound["fond4"] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
 	m_sound["fond4"]->loadSound("sons/C_C - Retro Action - 04 Cat Dance.wav");
 	m_sound["fond4"]->setVolume(1.f);
@@ -74,12 +75,12 @@ void hypSoundMng::Setup()
 	m_sound["fond10"]->loadSound("sons/C_C - Retro Action - 10 0-0-2.wav");
 	m_sound["fond10"]->setVolume(1.f);
 	m_sound["fond10"]->setMultiPlay(false);
-	m_sound["fond10"]->setLoop(false);*/
-
+	m_sound["fond10"]->setLoop(false);
+*/
 	m_playlistBackground.push_back("fond1");
 	m_playlistBackground.push_back("fond2");
-	/*
 	m_playlistBackground.push_back("fond3");
+	/*
 	m_playlistBackground.push_back("fond4");
 	m_playlistBackground.push_back("fond5");
 	m_playlistBackground.push_back("fond6");

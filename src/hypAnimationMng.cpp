@@ -178,7 +178,11 @@ void hypAnimationMng::Update()
        else
        {
            //PAUSE
-           if (!it->second->m_movie.isPaused()) it->second->m_movie.setPaused(true);
+           if (!it->second->m_movie.isPaused())
+           {
+               it->second->m_movie.firstFrame();
+               it->second->m_movie.setPaused(true);
+           }
        }
     }
 

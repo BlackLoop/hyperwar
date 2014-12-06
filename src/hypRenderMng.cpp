@@ -3,22 +3,22 @@
 #include "hypGameloop.h"
 #include "hypComMng.h"
 #include "hypFlockMng.h"
+
 #include "settings.h"
 
 using namespace std;
 
-extern ofVec2f  globalScroll;
-extern double   globalZoom;
+//extern ofVec2f  globalScroll;
+//extern double   globalZoom;
 
-hypRenderMng::hypRenderMng():m_zoom(50.f)//, absPosition(ofVec3f(BACKGROUND_SIZE_X/2, BACKGROUND_SIZE_Y/2, 100))
-{
+//hypRenderMng::hypRenderMng():m_zoom(300.f)
+//{
+//, absPosition(ofVec3f(BACKGROUND_SIZE_X/2, BACKGROUND_SIZE_Y/2, 100))
+//}
 
-}
 
-hypRenderMng::~hypRenderMng()
-{
+ofVec2f hypRenderMng::m_poscamera = ofVec2f();
 
-}
 
 void hypRenderMng::Setup() {
  //hypAssetMng::Instance()->LoadAsset("test.png");
@@ -35,6 +35,9 @@ void hypRenderMng::Setup() {
 	hypRenderMng::LoadbackgroundImages("background");
 
 	hypFlockMng::Instance()->Setup();
+
+	hypAssetMng::Instance()->LoadAsset("jumelles.png");
+
 }
 
 void hypRenderMng::Update()
@@ -80,7 +83,41 @@ void hypRenderMng::RenderPlay()
 
     absPosition += moveFactor * relPosition;
 
+#ifdef MOUSECONTROL
+    static float s_fLastMouseX = 0.f;
+    static float s_fLastMouseY = 0.f;
+
+	float fCenterX =  ofGetWindowWidth() / 2.f; //1024.f / 2.0f;
+	float fCenterY = ofGetWindowHeight() / 2.f ; //768.f / 2.0f;
+
+    float fMouseFromCenterX =  m_mouseX - fCenterX;
+    float fMouseFromCenterY =  m_mouseY - fCenterY;
+
+    float fMouseXNorm = (2.f*fMouseFromCenterX) / ofGetWindowWidth() ; //1024.f;
+    float fMouseYNorm = (2.f*fMouseFromCenterY) / ofGetWindowHeight(); //768.f;
+
+    float I_BKGND_WIDTH  = 8.f*1920.f;
+    float I_BKGND_HEIGHT = 8.f*1360.f;
+
+    float fOverflowX = 8.f*1920.f;// - 1024;
+    float fOverflowY = 8.f*1360.f;// - 768;
+
+    static float s_fCurrentX = -fOverflowX/2.f;
+	static float s_fCurrentY = -fOverflowY/2.f;
+
+    static float s_fTargetX = 0.f;
+    static float s_fTargetY = 0.f;
+
+    if (m_mouseX != s_fLastMouseX || m_mouseY != s_fLastMouseY) {
+        s_fTargetX = -fOverflowX/2.f + fMouseXNorm * I_BKGND_WIDTH/2.0f;
+        s_fTargetY = -fOverflowY/2.f + fMouseYNorm * I_BKGND_HEIGHT/2.0f;
+    }
+#endif
+
+
+    RenderOverlay();
     ofPushMatrix();
+
     ofTranslate(  absPosition.x  ,  absPosition.y , m_zoom );//moveFactor * abs(absPosition.z) + 50 );   // mouse
     //ofTranslate( m_mouseX ,m_mouseY, m_zoom);   // mouse
     //ofTranslate( globalScroll.x , globalScroll.y, m_zoom);   // 3D Pad
@@ -116,7 +153,7 @@ void hypRenderMng::RenderPlay()
     const int IDEAL_Z = 300;
 
     s_fCurrentX = ofClamp(s_fCurrentX, -BACKGROUND_SIZE_X  + 1920, OVER);
-    s_fCurrentY = ofClamp(s_fCurrentY, -BACKGROUND_SIZE_Y  + 1360, OVER);
+    s_fCurrentY = ofClamp(s_fCurrentY, -BACKGROUND_SIZE_Y  + 1360 - 200, OVER);
     s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          IDEAL_Z + OVER_Z);
 
     //ofVec3f trans = moveMouse() + moveKbd() + pad*50.;
@@ -130,8 +167,40 @@ void hypRenderMng::RenderPlay()
                     s_zoom);
 
         RenderBackground();
+
+/* COLIN
+        float factorSpeed = 10.f;
+        if (vDist.length() > 1.f) {
+
+            if (s_fCurrentX < s_fTargetX) {
+                s_fCurrentX += -factorSpeed;
+            }
+            else {
+                s_fCurrentX += factorSpeed;
+            }
+
+            if (s_fCurrentY < s_fTargetY) {
+                s_fCurrentY += -factorSpeed;
+            }
+            else {
+                s_fCurrentY += factorSpeed;
+            }
+
+        }
+        //cout<<"s_fCurrentX"<<s_fCurrentX<<", "<<"s_fCurrentY" << s_fCurrentY<<endl;
+        s_fCurrentX = ofClamp(s_fCurrentX, -1.f * I_BKGND_WIDTH + 1920, -12.f);
+        s_fCurrentY = ofClamp(s_fCurrentY, -1.f * I_BKGND_HEIGHT + 1360, -12.f);
+
+        m_poscamera = ofVec2f(s_fCurrentX, s_fCurrentY);
+        ofTranslate(s_fCurrentX,
+                    s_fCurrentY,
+                    -100.0f);
+
+        RenderBackground();
+*/
         RenderAnimations();
     ofPopMatrix();
+    RenderOverlay();
 
     s_fLastMouseX = m_mouseX;
     s_fLastMouseY = m_mouseY;
@@ -254,3 +323,8 @@ ofVec3f hypRenderMng::moveEase( ofVec3f toEase, float factZ, float factXY, float
 }
 
 
+void hypRenderMng::RenderOverlay()
+{
+    hypAssetMng::Instance()->GetAsset("jumelles.png")->draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
+
+}

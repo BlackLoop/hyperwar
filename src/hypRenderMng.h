@@ -9,12 +9,18 @@
 
 #include <map>
 #include <string>
-
-class hypRenderMng : public Singleton<hypRenderMng> {
+//m_zoom(300.f)
+class hypRenderMng : public Singleton<hypRenderMng>
+{
 public:
+	hypRenderMng()
+    {
 
-	hypRenderMng();
-	virtual ~hypRenderMng();
+    }
+	~hypRenderMng()
+	{
+
+	}
 
 	void Setup();
 	void Render();
@@ -25,6 +31,7 @@ public:
 
     int m_mouseX;
     int m_mouseY;
+    static ofVec2f m_poscamera;
 
     float Constrain(float amt, float low, float high);
 
@@ -44,8 +51,9 @@ public:
     ofVec3f moveEase( ofVec3f toEase, float factXY, float factZ, float delta);
 
 private:
-	void RenderBackground();
 
+	void RenderBackground();
+    void RenderOverlay();
 	hypAnimationMng m_hypAnimationMng;
 	void RenderAnimations();
     void RenderFlock();

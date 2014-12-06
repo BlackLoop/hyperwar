@@ -13,6 +13,7 @@ void ofApp::exit(ofEventArgs &args) {
     hypComMngSingleton::Instance()->kill();
 #endif // USE3DPAD
 }
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 

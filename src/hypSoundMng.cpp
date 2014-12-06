@@ -16,7 +16,9 @@ hypSoundMng::~hypSoundMng()
 }
 
 // random generator function:
-int myrandom (int i) { return std::rand()%i;}
+int myrandom (int i) {
+    return std::rand()%i;
+}
 
 void hypSoundMng::Setup()
 {
@@ -103,7 +105,7 @@ void hypSoundMng::Update(){
  {
     m_currentPlayBackgroundIndex++;
     m_currentPlayBackgroundIndex %= m_playlistBackground.size();
-    cout<<"m_currentPlayBackgroundIndex="<<m_currentPlayBackgroundIndex<<endl;
+    //cout<<"m_currentPlayBackgroundIndex="<<m_currentPlayBackgroundIndex<<endl;
     Play(m_playlistBackground.at(m_currentPlayBackgroundIndex));
  }
 }

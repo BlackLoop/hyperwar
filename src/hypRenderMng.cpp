@@ -149,12 +149,13 @@ void hypRenderMng::RenderPlay()
     s_zoom -= (moy.z -.5f) * 15.;
 
     const int OVER = 300;
-    const int OVER_Z = 75;
-    const int IDEAL_Z = 300;
+    const int OVER_Z = 1100; //75;
+    const int IDEAL_Z = 1100; // 300
 
     s_fCurrentX = ofClamp(s_fCurrentX, -BACKGROUND_SIZE_X  + 1920, OVER);
     s_fCurrentY = ofClamp(s_fCurrentY, -BACKGROUND_SIZE_Y  + 1360 - 200, OVER);
-    s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          IDEAL_Z + OVER_Z);
+   // s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          IDEAL_Z + OVER_Z);
+    s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          -IDEAL_Z);// + OVER_Z);
 
     //ofVec3f trans = moveMouse() + moveKbd() + pad*50.;
     //ofVec3f newtrans = moveEase( trans, 0.f, 0.f, F_TRANS_DELTA );
@@ -199,7 +200,7 @@ void hypRenderMng::RenderPlay()
 
         RenderBackground();
 */
-        RenderAnimations();
+    RenderAnimations();
     ofPopMatrix();
     RenderOverlay();
 

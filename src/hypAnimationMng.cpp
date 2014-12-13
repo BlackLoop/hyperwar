@@ -158,7 +158,7 @@ void hypAnimationMng::Setup()
 	m_animations["GWEN_A1_ANIM1_PECHEUR"]->m_movie.setPaused(true);
 	m_animations["GWEN_A1_ANIM1_PECHEUR"]->m_movie.setLoopState(OF_LOOP_NORMAL);
 
-	m_animations["GWEN_A1_ANIM2_BATON"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(1574.5f, 1312.f), 2.f ) );
+	m_animations["GWEN_A1_ANIM2_BATON"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(1855.f, 1574.5f), 2.f ) );
 	m_animations["GWEN_A1_ANIM2_BATON"]->m_movie.setPixelFormat(OF_PIXELS_RGBA); //(or RGBA)
 	m_animations["GWEN_A1_ANIM2_BATON"]->m_movie.loadMovie("animations/GWEN_A1_ANIM2_BATON_scale2.mov");
 	m_animations["GWEN_A1_ANIM2_BATON"]->m_movie.play();
@@ -172,13 +172,26 @@ void hypAnimationMng::Setup()
 	m_animations["GWEN_A1_ANIM3_NU"]->m_movie.setPaused(true);
 	m_animations["GWEN_A1_ANIM3_NU"]->m_movie.setLoopState(OF_LOOP_NORMAL);
 
-	m_animations["GWEN_C2_ANIM1_ecran"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(14563.5f, 8698.f), 4.f ) );
+	m_animations["GWEN_C2_ANIM1_ecran"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(14563.5f, 8698.f) ) );
 	m_animations["GWEN_C2_ANIM1_ecran"]->m_movie.setPixelFormat(OF_PIXELS_RGBA); //(or RGBA)
 	m_animations["GWEN_C2_ANIM1_ecran"]->m_movie.loadMovie("animations/GWEN_C2_ANIM1_ecran.mov");
 	m_animations["GWEN_C2_ANIM1_ecran"]->m_movie.play();
 	m_animations["GWEN_C2_ANIM1_ecran"]->m_movie.setPaused(true);
 	m_animations["GWEN_C2_ANIM1_ecran"]->m_movie.setLoopState(OF_LOOP_NORMAL);
 
+	m_animations["GWEN_3gars"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(4954.5f, 10138.f)) );
+	m_animations["GWEN_3gars"]->m_movie.setPixelFormat(OF_PIXELS_RGBA); //(or RGBA)
+	m_animations["GWEN_3gars"]->m_movie.loadMovie("animations/3gars.mov");
+	m_animations["GWEN_3gars"]->m_movie.play();
+	m_animations["GWEN_3gars"]->m_movie.setPaused(true);
+	m_animations["GWEN_3gars"]->m_movie.setLoopState(OF_LOOP_NORMAL);
+
+	m_animations["GWEN_poing"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(2887.f, 9133.f) ) );
+	m_animations["GWEN_poing"]->m_movie.setPixelFormat(OF_PIXELS_RGBA); //(or RGBA)
+	m_animations["GWEN_poing"]->m_movie.loadMovie("animations/poing.mov");
+	m_animations["GWEN_poing"]->m_movie.play();
+	m_animations["GWEN_poing"]->m_movie.setPaused(true);
+	m_animations["GWEN_poing"]->m_movie.setLoopState(OF_LOOP_NORMAL);
 
 }
 
@@ -200,7 +213,7 @@ void hypAnimationMng::Update()
     float distance_play_video = 1000.f;
     for (std::map<std::string, ofPtr<Animation> >::iterator it=m_animations.begin(); it!=m_animations.end(); ++it)
     {
-       if ((fabs(it->second->m_pos_center.x - pos_center_cam.x) < distance_play_video) && (fabs(it->second->m_pos_center.x - pos_center_cam.x) < distance_play_video))
+       if ((fabs(it->second->m_pos_center.x - pos_center_cam.x) < (distance_play_video + it->second->m_movie.getWidth()*0.5f)) && (fabs(it->second->m_pos_center.x - pos_center_cam.x) < (distance_play_video + it->second->m_movie.getHeight()*0.5f)))
        {
             //PLAY
             if (it->second->m_movie.isPaused()) it->second->m_movie.setPaused(false);

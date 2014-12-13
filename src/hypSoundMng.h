@@ -14,6 +14,7 @@ public:
     virtual ~hypSoundMng();
 	void Setup();
 	void Play(const std::string & name);
+	void PlayWeaponsAlea();
 	void Update();
 private:
 
@@ -21,6 +22,10 @@ private:
 
 	std::vector<std::string> m_playlistBackground;
 	int m_currentPlayBackgroundIndex;
+
+	std::vector<std::string> m_playlistWeapons;
+	int m_currentPlayWeaponsIndex;
+
 };
 
 typedef Singleton<hypSoundMng> hypSoundMngSingleton;

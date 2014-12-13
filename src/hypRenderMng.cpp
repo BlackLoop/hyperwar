@@ -23,7 +23,6 @@ ofVec2f hypRenderMng::m_poscamera = ofVec2f();
 void hypRenderMng::Setup() {
 
     m_hypAnimationMng.Setup();
-    m_hypGamePad.setup();
 
     ofSetWindowTitle("H.Y.P.E.R.W.A.R");
 	ofSetVerticalSync(true);
@@ -63,10 +62,6 @@ void hypRenderMng::Render()
         }
         break;
 	}
-
-#ifdef _DEBUG
-	m_hypGamePad.draw();
-#endif
 }
 
 void hypRenderMng::RenderStandby()
@@ -86,7 +81,8 @@ void hypRenderMng::RenderPlay()
     //cout<<"control x="<<control.x<<" y="<<control.y<<endl;
     #endif
     #ifdef USEGAMEPAD
-
+    ofVec3f padControl = hypModelMngSingleton::Instance()->GetModelPad().GetValueControl();
+    ofVec3f control = ofVec3f(padControl.x, -padControl.y, padControl.z);
     #endif
 
     padVals.push_back(control);
@@ -107,8 +103,8 @@ void hypRenderMng::RenderPlay()
     s_zoom -= (moy.z -.5f) * 15.;
 
     const int OVER = 300;
-    const int OVER_Z = 1100; //75;
-    const int IDEAL_Z = 1100; // 300
+    const int OVER_Z = 1000; //75;
+    const int IDEAL_Z = 300; // 300
 
     s_fCurrentX = ofClamp(s_fCurrentX, -BACKGROUND_SIZE_X  + 1920, OVER);
     s_fCurrentY = ofClamp(s_fCurrentY, -BACKGROUND_SIZE_Y  + 1360 - 200, OVER);

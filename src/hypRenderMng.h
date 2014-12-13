@@ -5,7 +5,7 @@
 
 #include "Singleton.h"
 #include "hypAnimationMng.h"
-#include "hypGamePad.h"
+
 
 #include <map>
 #include <string>
@@ -63,7 +63,7 @@ private:
     void LoadSequencesImages(string dirName);
 
     std::vector< ofImage > m_backgroundImages;
-    hypGamePad m_hypGamePad;
+
     std::list <ofVec3f> padVals;
 };
 

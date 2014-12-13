@@ -97,6 +97,26 @@ void hypSoundMng::Setup()
 
     m_currentPlayBackgroundIndex = 0;
 	Play(m_playlistBackground.at(m_currentPlayBackgroundIndex));
+
+	//
+
+    ofDirectory dirWeapons;
+
+    int nFiles = dirWeapons.listDir("sons//weapons");
+    dirWeapons.sort();
+    if(nFiles) {
+        for(int i=0; i<dirWeapons.numFiles(); i++) {
+            string filePath = dirWeapons.getPath(i);
+            m_sound[filePath] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
+            m_sound[filePath]->loadSound(filePath, true);
+            m_sound[filePath]->setVolume(1.f);
+            m_sound[filePath]->setMultiPlay(false);
+            m_sound[filePath]->setLoop(false);
+            m_playlistWeapons.push_back(filePath);
+        }
+    }
+    cout<<"m_playlistWeapons.size()"<<m_playlistWeapons.size()<<endl;
+    m_currentPlayWeaponsIndex = 0;
 }
 
 void hypSoundMng::Update(){
@@ -111,6 +131,18 @@ void hypSoundMng::Update(){
 }
 
 void hypSoundMng::Play(const string & name) {
+	if(m_sound.find(name) != m_sound.end())
+    {
+        m_sound[name]->play();
+    }
+    else cout<<"hypSoundMng.cpp : no file with the name "<< name <<endl;
+}
+
+void hypSoundMng::PlayWeaponsAlea() {
+    if (m_playlistWeapons.size() == 0) return;
+    string name = m_playlistWeapons.at(m_currentPlayWeaponsIndex);
+    m_currentPlayWeaponsIndex++;
+    m_currentPlayWeaponsIndex %= m_playlistWeapons.size();
 	if(m_sound.find(name) != m_sound.end())
     {
         m_sound[name]->play();

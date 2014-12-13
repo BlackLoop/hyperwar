@@ -5,6 +5,7 @@
 
 #include "Singleton.h"
 #include "hypMouse.h"
+#include "hypModelPad.h";
 
 #include <map>
 #include <string>
@@ -16,8 +17,10 @@ public:
 	void Setup();
 	void Update();
 	hypMouse & GetMouse() {return m_hypMouse; };
+	hypModelPad & GetModelPad() {return m_hypModelPad;};
 private:
     hypMouse m_hypMouse;
+    hypModelPad m_hypModelPad;
 };
 
 typedef Singleton<hypModelMng> hypModelMngSingleton;

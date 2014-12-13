@@ -1,35 +1,35 @@
 #include "hypRenderMng.h"
 #include "hypAssetMng.h"
 #include "hypGameloop.h"
+#include "hypComMng.h"
 #include "hypFlockMng.h"
+#include "hypModelMng.h"
+#include "settings.h"
 
 using namespace std;
+
+//extern ofVec2f  globalScroll;
+//extern double   globalZoom;
+
+//hypRenderMng::hypRenderMng():m_zoom(300.f)
+//{
+//, absPosition(ofVec3f(BACKGROUND_SIZE_X/2, BACKGROUND_SIZE_Y/2, 100))
+//}
+
 
 ofVec2f hypRenderMng::m_poscamera = ofVec2f();
 
 
-hypRenderMng::hypRenderMng():m_zoom(300.f)
-{
-
-}
-
-hypRenderMng::~hypRenderMng()
-{
-
-}
-
 void hypRenderMng::Setup() {
- //hypAssetMng::Instance()->LoadAsset("test.png");
 
- m_hypAnimationMng.Setup();
- m_hypGamePad.setup();
- //hypAssetMng::Instance()->LoadAsset("test.png");
+    m_hypAnimationMng.Setup();
+    m_hypGamePad.setup();
 
     ofSetWindowTitle("H.Y.P.E.R.W.A.R");
 	ofSetVerticalSync(true);
 	ofEnableAlphaBlending();
  	ofEnableSmoothing();
-    ofSetFullscreen(true);
+    //ofSetFullscreen(true);
 
 	hypRenderMng::LoadbackgroundImages("background");
 
@@ -47,7 +47,7 @@ void hypRenderMng::Update()
 
 void hypRenderMng::Render()
 {
-    ofClear(0, 0, 0, 0);
+    ofClear(1, 1, 1, 0);
 
 
     switch (hypGameloop::Instance()->GetEStage())
@@ -76,85 +76,62 @@ void hypRenderMng::RenderStandby()
 
 void hypRenderMng::RenderPlay()
 {
+    #ifdef USE3DPAD
+    ofVec3f control = hypComMngSingleton::Instance()->GetVector();
+    //cout<<"x= "<<pad.x<<", y= "<<pad.y<<", z= "<<pad.z<<endl;
+    #endif
+    #ifdef USEMOUSE
+    ofVec2f mouseControl = hypModelMngSingleton::Instance()->GetMouse().GetMouseControl();
+    ofVec3f control = ofVec3f(mouseControl.x, -mouseControl.y, 0.f);
+    //cout<<"control x="<<control.x<<" y="<<control.y<<endl;
+    #endif
+    #ifdef USEGAMEPAD
 
-	//ofEnableLighting();
+    #endif
 
-    static float s_fLastMouseX = 0.f;
-    static float s_fLastMouseY = 0.f;
+    padVals.push_back(control);
 
-	float fCenterX =  ofGetWindowWidth() / 2.f; //1024.f / 2.0f;
-	float fCenterY = ofGetWindowHeight() / 2.f ; //768.f / 2.0f;
-
-    float fMouseFromCenterX =  m_mouseX - fCenterX;
-    float fMouseFromCenterY =  m_mouseY - fCenterY;
-
-    float fMouseXNorm = (2.f*fMouseFromCenterX) / ofGetWindowWidth() ; //1024.f;
-    float fMouseYNorm = (2.f*fMouseFromCenterY) / ofGetWindowHeight(); //768.f;
-
-    float I_BKGND_WIDTH  = 8.f*1920.f;
-    float I_BKGND_HEIGHT = 8.f*1360.f;
-
-    float fOverflowX = 8.f*1920.f;// - 1024;
-    float fOverflowY = 8.f*1360.f;// - 768;
-
-    static float s_fCurrentX = -fOverflowX/2.f;
-	static float s_fCurrentY = -fOverflowY/2.f;
-
-    static float s_fTargetX = 0.f;
-    static float s_fTargetY = 0.f;
-
-    if (m_mouseX != s_fLastMouseX || m_mouseY != s_fLastMouseY) {
-        s_fTargetX = -fOverflowX/2.f + fMouseXNorm * I_BKGND_WIDTH/2.0f;
-        s_fTargetY = -fOverflowY/2.f + fMouseYNorm * I_BKGND_HEIGHT/2.0f;
+    // lissage du pad
+    ofVec3f moy = ofVec3f(0,0,0);
+    if(padVals.size() > 8) {
+        padVals.pop_front();
     }
+    for( std::list<ofVec3f>::iterator it=padVals.begin(); it != padVals.end(); ++it) {
+            moy += *it;
+    }
+    moy = moy / (float)padVals.size();
 
-    RenderOverlay();
-    ofPushMatrix();
-        ofVec2f vDist(s_fTargetX - s_fCurrentX,
-                      s_fTargetX - s_fCurrentY);
+    s_fCurrentX -= moy.x * 20.;
+    s_fCurrentY += moy.y * 20.;
+    //s_fCurrentZ += pad.z * 10.;
+    s_zoom -= (moy.z -.5f) * 15.;
 
-        float factorSpeed = 10.f;
-        if (vDist.length() > 1.f) {
+    const int OVER = 300;
+    const int OVER_Z = 1100; //75;
+    const int IDEAL_Z = 1100; // 300
 
-            if (s_fCurrentX < s_fTargetX) {
-                s_fCurrentX += -factorSpeed;
-            }
-            else {
-                s_fCurrentX += factorSpeed;
-            }
+    s_fCurrentX = ofClamp(s_fCurrentX, -BACKGROUND_SIZE_X  + 1920, OVER);
+    s_fCurrentY = ofClamp(s_fCurrentY, -BACKGROUND_SIZE_Y  + 1360 - 200, OVER);
+   // s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          IDEAL_Z + OVER_Z);
+    s_zoom      = ofClamp(s_zoom,      -IDEAL_Z - OVER_Z,          -IDEAL_Z);// + OVER_Z);
 
-            if (s_fCurrentY < s_fTargetY) {
-                s_fCurrentY += -factorSpeed;
-            }
-            else {
-                s_fCurrentY += factorSpeed;
-            }
+   m_poscamera = ofVec2f(s_fCurrentX, s_fCurrentY);
 
-        }
-        //cout<<"s_fCurrentX"<<s_fCurrentX<<", "<<"s_fCurrentY" << s_fCurrentY<<endl;
-        s_fCurrentX = ofClamp(s_fCurrentX, -1.f * I_BKGND_WIDTH + 1920, -12.f);
-        s_fCurrentY = ofClamp(s_fCurrentY, -1.f * I_BKGND_HEIGHT + 1360, -12.f);
-
-        m_poscamera = ofVec2f(s_fCurrentX, s_fCurrentY);
+   ofPushMatrix();
         ofTranslate(s_fCurrentX,
                     s_fCurrentY,
-                    -100.0f);
-
+                    s_zoom);
         RenderBackground();
         RenderAnimations();
     ofPopMatrix();
     RenderOverlay();
 
-    s_fLastMouseX = m_mouseX;
-    s_fLastMouseY = m_mouseY;
+    hypModelMngSingleton::Instance()->GetMouse().Update();
+
 }
 
 void hypRenderMng::RenderBackground()
 {
-     int X_TILES_NB = 8;
-     int Y_TILES_NB = 8;
-     int TILE_WIDTH = 1920;
-     int TILE_HEIGHT = 1360;
 
     ofPushMatrix();
     //ofTranslate( -3*TILE_WIDTH/2, -2*TILE_HEIGHT/2 );
@@ -203,7 +180,72 @@ void hypRenderMng::LoadSequencesImages(string dirName)
 {
 
 }
+/*
+// MOTION DEVICES
+// MOUSE
+ofVec3f hypRenderMng::moveMouse()
+{
+    // Mouse
 
+
+	float fCenterX = 1024.f / 2.0f;
+	float fCenterY = 768.f / 2.0f;
+
+    float fMouseFromCenterX =  s_mouseX - fCenterX;
+    float fMouseFromCenterY =  s_mouseY - fCenterY;
+
+    float fMouseXNorm = (2.f*fMouseFromCenterX) / 1024.f;
+    float fMouseYNorm = (2.f*fMouseFromCenterY) / 768.f;
+
+    if (s_mouseX != s_fLastMouseX || s_mouseY != s_fLastMouseY) {
+        s_fTargetX = -fOverflowX/2.f + fMouseXNorm * I_BKGND_WIDTH/2.0f;
+        s_fTargetY = -fOverflowY/2.f + fMouseYNorm * I_BKGND_HEIGHT/2.0f;
+    }
+
+    return ofVec3f( s_fTargetX, s_fTargetY, 0);
+}
+
+// KEYBOARD
+ofVec3f hypRenderMng::moveKbd()
+{
+    // Zoom (from keyboard)
+	const float ZOOM_EASING = 5.0f;
+    if(s_zoom < m_zoom) { s_zoom += ZOOM_EASING; cout << s_zoom<<" s_zoom\n";}
+    if(s_zoom > m_zoom) { s_zoom -= ZOOM_EASING; cout << s_zoom<<" s_zoom\n";}
+    return ofVec3f( 0, 0, s_zoom);
+}
+
+ofVec3f hypRenderMng::move3DPad() {
+
+}
+
+// EASING FUNCTION
+ofVec3f hypRenderMng::moveEase( ofVec3f toEase, float factZ, float factXY, float delta)
+{
+    ofVec2f vDist(s_fTargetX - s_fCurrentX,
+                  s_fTargetX - s_fCurrentY);
+//    ofVec2f vDist( toEase, curPos);
+
+    if (vDist.length() > delta) {
+
+        if (s_fCurrentX < s_fTargetX) {
+            s_fCurrentX += delta;
+        }
+        else {
+            s_fCurrentX += -delta;
+        }
+
+        if (s_fCurrentY < s_fTargetY) {
+            s_fCurrentY += delta;
+        }
+        else {
+            s_fCurrentY += -delta;
+        }
+    }
+
+    return ofVec3f(s_fCurrentX, s_fCurrentY);
+}
+*/
 
 void hypRenderMng::RenderOverlay()
 {

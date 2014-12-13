@@ -1,61 +1,59 @@
+#pragma once
+
 #include "hypComMng.h"
-#include "hypComThread.h"
-#include "ofApp.h"
 
-using namespace std;
+#define WAITING 0
+#define INIT 1
+#define RECEIVING 2
 
-//ofVec3f lastPadCurseur;
-//ofVec3f padCurseur;
-
-
-hypComMng::hypComMng()
-{
-
-}
-
-hypComMng::~hypComMng()
-{
-    //padSerial.close();
-    //unoSerial.close();
-    m_thread.finalize();
-    m_thread.stopThread();     // stop the thread
-
-}
-
-void hypComMng::Setup() {
-    //printf("setup com\n");
-    //padSerial.setup("/dev/ttyACM0", 115200);
-    //unoSerial.setup("/dev/ttyACM1", 115200);
-    //ofSleepMillis(600); // Let it cool down, dude...
-//    state = INIT; // Initilialize state
-
-    // start the thread
-    cout<<"hypComMng:Starting com thread\n";
-    m_thread.startThread(true, false);    // blocking, non verbose
-
-}
-
-void hypComMng::Update() {
-    scrollSpeed = m_thread.getValues();
+class hypComThread : public ofThread {
 
 /*
-    if ((state == INIT) && (ofGetElapsedTimef() > 5.f)) {
-                printf("INIT done... Sending V to start receiving values !\n"); // Debug
-                padSerial.writeByte('V');
-                state = WAITING;
+    public ~hypComThread()
+    {
+            padSerial.close();
+            //unoSerial.close();
     }
-    while (padSerial.available()) {
-    //while ((padSerial.available() < 16) & (padSerial.available() > 4) ) {
-    //if (padSerial.available()) {
+*/
+
+private:
+    int state = INIT;
+    uint8_t trame[16];
+    int byteCount = 0;
+
+    ofVec3f lastPadCurseur;
+    ofVec3f padCurseur;
+    ofSerial padSerial;
+    ofVec3f scrollSpeed;
+
+public:
+    void threadedFunction() {
+
+    //printf("setup com\n");
+    padSerial.setup("/dev/ttyACM0", 115200);
+    //unoSerial.setup("/dev/ttyACM1", 115200);
+    ofSleepMillis(600); // Let it cool down, dude...
+    cout<<"INIT COM OK"<<endl;
+
+        while(isThreadRunning()) {
+
+          if ((state == INIT) && (ofGetElapsedTimef() > 8.f)) {
+                    printf("INIT done... Sending V to start receiving values !\n"); // Debug
+                    padSerial.writeByte('V');
+                    state = WAITING;
+        }
+
+
+        while (padSerial.available()) {
+
 
         uint8_t byte = padSerial.readByte();
-
 
         if (state == RECEIVING) {
             trame[byteCount++] = byte; // 15 bytes as follow : XXXX|YYYY|ZZZZ representing cursor X, Y, Z
             if (byteCount == 16) {
                 trame[15] = 0; // Null byte at end
-                printf("voici : %s.\n", trame); // Debug
+                //printf("voici : %s.\n", trame); // Debug
                 processCoordinates();
                 byteCount = 0; // reset counter
                 state = WAITING; // reset state
@@ -66,24 +64,23 @@ void hypComMng::Update() {
             state = RECEIVING; // toggle state for receiving
         }
 
-*/
+        }
 
-//    while (unoSerial.available()) {
-//
-//        uint8_t byte = unoSerial.readByte();
-//
-//        if (byte == 'A') {
-//            ofSendMessage("hypComMng::A");
-//        }
-//        if (byte == 'B') {
-//            ofSendMessage("hypComMng::B");
-//        }
-//
-//    }
+    }
+
 
 }
 
-/*
+void finalize() {
+    padSerial.close();
+    //unoSerial.close();
+}
+
+
+ofVec3f getValues() {
+        return scrollSpeed;
+}
+
 ofVec3f lowPass(ofVec3f current, ofVec3f last, double level ){
     // Basic linear lowpass filter x(t) = level * x(t-1) + level * x(t)
 
@@ -105,7 +102,7 @@ ofVec2f scrollVector (ofVec2f point, ofVec2f center) {
 }
 
 
-void hypComMng::processCoordinates(){
+void processCoordinates(){
     // 0077|0038|0  2  2  3| Example UART data formatted as follows : XXXX|YYYY|ZZZZ
     // 0123 5678 10 11 12 13 Indexes of digits, XXXX is 3 2 1, LSB
     padCurseur.x = trame[3] - 48 + (trame[2] - 48) * 10 + (trame[1] - 48) * 100;
@@ -120,9 +117,11 @@ void hypComMng::processCoordinates(){
     ofVec2f center(50, 50);
 
     //ofVec2f scrollSpeed(scrollVector(coordsNorm, center));
-    scrollSpeed  = scrollVector(coordsNorm, center);
-    scrollSpeed.z = coordsNorm.z;
-    printf("%f - %f - %f\n", scrollSpeed.x, scrollSpeed.y, scrollSpeed.z); // Debug
+    //scrollSpeed  = scrollVector(coordsNorm, center);
+    //scrollSpeed.z = coordsNorm.z;
+    ofVec2f scroll2d = scrollVector(coordsNorm, center);
+    scrollSpeed = ofVec3f(scroll2d.x, scroll2d.y, coordsNorm.z);
+//printf("%f - %f - %f\n", scrollSpeed.x, scrollSpeed.y, scrollSpeed.z); // Debug
 
     lastPadCurseur = filteredCoords;
 
@@ -130,8 +129,8 @@ void hypComMng::processCoordinates(){
     //printf(" - pack : X : %f | Y : %f | Z : %f\n", padCurseur.x, padCurseur.y, padCurseur.z); // Debug
 
 }
-*/
 
-ofVec3f hypComMng::GetVector() {
-    return scrollSpeed;
-}
+
+
+
+};

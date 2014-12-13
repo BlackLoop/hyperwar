@@ -2,16 +2,41 @@
 
 #include "hypGameloop.h"
 #include "hypRenderMng.h"
+#include "hypComMng.h"
+#include "hypModelMng.h"
+
+#include "settings.h"
+
+void ofApp::exit(ofEventArgs &args) {
+    hypGameloopSingleton::Instance()->kill();
+    hypRenderMngSingleton::Instance()->kill();
+    hypModelMngSingleton::Instance()->kill();
+#ifdef USE3DPAD
+    hypComMngSingleton::Instance()->kill();
+#endif // USE3DPAD
+}
+
 //--------------------------------------------------------------
 void ofApp::setup(){
+
+    hypModelMngSingleton::Instance()->Setup();
     hypGameloopSingleton::Instance()->Setup();
     hypRenderMngSingleton::Instance()->Setup();
+#ifdef USE3DPAD
+    printf("Loooooool ! cc Barzi\n");
+    hypComMngSingleton::Instance()->Setup();
+#endif // USE3DPAD
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     hypGameloopSingleton::Instance()->Update();
     hypRenderMngSingleton::Instance()->Update();
+#ifdef USE3DPAD
+    hypComMngSingleton::Instance()->Update();
+#endif
+
+    hypModelMngSingleton::Instance()->Update();
 }
 
 //--------------------------------------------------------------
@@ -29,6 +54,8 @@ void ofApp::keyPressed(int key){
     }
 }
 
+
+
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
 
@@ -36,8 +63,7 @@ void ofApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
-    hypRenderMng::Instance()->m_mouseX = x;
-    hypRenderMng::Instance()->m_mouseY = y;
+    hypModelMngSingleton::Instance()->GetMouse().SetMouse(x,y);
 }
 
 //--------------------------------------------------------------

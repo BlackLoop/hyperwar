@@ -18,6 +18,7 @@ void hypAnimationMng::Setup()
 {
     /*
     old animations
+
 	m_animations["test1"] = ofPtr<Animation>(new Animation(ofVideoPlayer(), ofVec2f(206.f, 4856.f) ) );
 	m_animations["test1"]->m_movie.setPixelFormat(OF_PIXELS_RGBA); //(or RGBA)
 	m_animations["test1"]->m_movie.loadMovie("animations/carlos_anim_1.mov");

@@ -82,6 +82,14 @@ void hypSoundMng::Setup()
 	m_sound["fond10"]->setMultiPlay(false);
 	m_sound["fond10"]->setLoop(false);
 
+    m_sound["fond"] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
+	m_sound["fond"]->loadSound("sons/hyperwar_2.2.24bit.wav", true);
+	m_sound["fond"]->setVolume(1.f);
+	m_sound["fond"]->setMultiPlay(false);
+	m_sound["fond"]->setLoop(false);
+
+
+
 	m_playlistBackground.push_back("fond1");
 	m_playlistBackground.push_back("fond2");
 	m_playlistBackground.push_back("fond3");
@@ -92,24 +100,19 @@ void hypSoundMng::Setup()
 	m_playlistBackground.push_back("fond8");
 	m_playlistBackground.push_back("fond9");
 	m_playlistBackground.push_back("fond10");
+    m_playlistBackground.push_back("fond");
 
-	 std::random_shuffle ( m_playlistBackground.begin(), m_playlistBackground.end(), myrandom);
 
-    m_currentPlayBackgroundIndex = 0;
-	Play(m_playlistBackground.at(m_currentPlayBackgroundIndex));
-
-	//
-
+	//WEAPONS
     ofDirectory dirWeapons;
-
-    int nFiles = dirWeapons.listDir("sons//weapons");
+    int nFilesweapons = dirWeapons.listDir("sons//weapons");
     dirWeapons.sort();
-    if(nFiles) {
+    if(nFilesweapons) {
         for(int i=0; i<dirWeapons.numFiles(); i++) {
             string filePath = dirWeapons.getPath(i);
             m_sound[filePath] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
             m_sound[filePath]->loadSound(filePath, true);
-            m_sound[filePath]->setVolume(1.f);
+            m_sound[filePath]->setVolume(0.5f);
             m_sound[filePath]->setMultiPlay(false);
             m_sound[filePath]->setLoop(false);
             m_playlistWeapons.push_back(filePath);
@@ -117,6 +120,41 @@ void hypSoundMng::Setup()
     }
     cout<<"m_playlistWeapons.size()"<<m_playlistWeapons.size()<<endl;
     m_currentPlayWeaponsIndex = 0;
+
+    //ARCHIVES
+    ofDirectory dirArchives;
+    int nFilesarchives = dirArchives.listDir("sons//archives");
+    dirArchives.sort();
+    if(nFilesarchives) {
+        for(int i=0; i<dirArchives.numFiles(); i++) {
+            string filePath = dirArchives.getPath(i);
+            m_sound[filePath] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
+            m_sound[filePath]->loadSound(filePath, true);
+            m_sound[filePath]->setVolume(1.f);
+            m_sound[filePath]->setMultiPlay(false);
+            m_sound[filePath]->setLoop(false);
+
+            m_playlistBackground.push_back(filePath);
+
+            cout<<"filePath="<<filePath<<endl;
+
+        }
+    }
+    std::random_shuffle ( m_playlistBackground.begin(), m_playlistBackground.end(), myrandom);
+    m_currentPlayBackgroundIndex = 0;
+	Play(m_playlistBackground.at(m_currentPlayBackgroundIndex));
+
+    m_sound["bomb"] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
+	m_sound["bomb"]->loadSound("sons/Atomic_Bomb-Sound_Explorer-897730679.wav", true);
+	m_sound["bomb"]->setVolume(1.f);
+	m_sound["bomb"]->setMultiPlay(false);
+	m_sound["bomb"]->setLoop(false);
+
+    m_sound["siren"] = ofPtr<ofSoundPlayer>(new ofSoundPlayer() );
+	m_sound["siren"]->loadSound("sons/Tornado Siren-SoundBible.com-897026957.wav", true);
+	m_sound["siren"]->setVolume(1.f);
+	m_sound["siren"]->setMultiPlay(false);
+	m_sound["siren"]->setLoop(false);
 }
 
 void hypSoundMng::Update(){
@@ -128,6 +166,20 @@ void hypSoundMng::Update(){
     //cout<<"m_currentPlayBackgroundIndex="<<m_currentPlayBackgroundIndex<<endl;
     Play(m_playlistBackground.at(m_currentPlayBackgroundIndex));
  }
+}
+
+void hypSoundMng::PlayNextBackroundPlaylist()
+{
+     string nameCurrent = m_playlistBackground.at(m_currentPlayBackgroundIndex);
+     if(m_sound.find(nameCurrent) != m_sound.end() && m_sound[nameCurrent]->getIsPlaying())
+     {
+        m_sound[nameCurrent]->stop();
+        m_currentPlayBackgroundIndex++;
+        m_currentPlayBackgroundIndex %= m_playlistBackground.size();
+        //cout<<"m_currentPlayBackgroundIndex="<<m_currentPlayBackgroundIndex<<endl;
+        Play(m_playlistBackground.at(m_currentPlayBackgroundIndex));
+     }
+
 }
 
 void hypSoundMng::Play(const string & name) {

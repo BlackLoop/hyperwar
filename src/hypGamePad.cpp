@@ -36,7 +36,7 @@ ofxGamepadHandler::get()->draw(10,10);
 }
 void hypGamePad::axisChanged(ofxGamepadAxisEvent& e)
 {
-	cout << "AXIS " << e.axis << " VALUE " << ofToString(e.value) << endl;
+	//cout << "AXIS " << e.axis << " VALUE " << ofToString(e.value) << endl;
     Axis axis;
     axis.m_id = e.axis;
     axis.m_value = e.value;
@@ -45,7 +45,7 @@ void hypGamePad::axisChanged(ofxGamepadAxisEvent& e)
 
 void hypGamePad::buttonPressed(ofxGamepadButtonEvent& e)
 {
-	cout << "BUTTON " << e.button << " PRESSED" << endl;
+	//cout << "BUTTON " << e.button << " PRESSED" << endl;
 
     switch(e.button)
     {
@@ -76,5 +76,5 @@ void hypGamePad::buttonPressed(ofxGamepadButtonEvent& e)
 
 void hypGamePad::buttonReleased(ofxGamepadButtonEvent& e)
 {
-	cout << "BUTTON " << e.button << " RELEASED" << endl;
+	//cout << "BUTTON " << e.button << " RELEASED" << endl;
 }

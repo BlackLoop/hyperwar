@@ -6,7 +6,7 @@
 		<Option makefile_is_custom="1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="addons/;src/;build config/;addons/ofxNSWindower/src/;addons/ofxXmlSettings/libs/;addons/ofxGamepad/libs/wgois/include/win32/;addons/ofxGamepad/libs/wgois/include/;addons/ofxOsc/src/;addons/ofxOsc/libs/oscpack/src/ip/posix/;addons/ofxOsc/libs/oscpack/src/ip/;addons/ofxGamepad/src/;addons/ofxXmlSettings/src/;addons/ofxOsc/libs/oscpack/src/osc/;addons/ofxOsc/libs/oscpack/src/ip/win32/;addons/ofxGamepad/libs/wgois/include/mac/;addons/ofxGamepad/libs/wgois/include/linux/;src/flocking/;" />
+		<Option virtualFolders="addons/;src/;build config/;addons/ofxNSWindower/src/;addons/ofxXmlSettings/libs/;addons/ofxGamepad/libs/wgois/include/win32/;addons/ofxGamepad/libs/wgois/include/;addons/ofxOsc/src/;addons/ofxOsc/libs/oscpack/src/ip/posix/;addons/ofxOsc/libs/oscpack/src/ip/;addons/ofxGamepad/src/;addons/ofxXmlSettings/src/;addons/ofxOsc/libs/oscpack/src/osc/;addons/ofxOsc/libs/oscpack/src/ip/win32/;addons/ofxGamepad/libs/wgois/include/mac/;addons/ofxGamepad/libs/wgois/include/linux/;src/flocking/;src/model/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/$(PROJECT_NAME)_debug" prefix_auto="1" extension_auto="1" />
@@ -312,6 +312,42 @@
 		<Unit filename="../../../addons/ofxXmlSettings/src/ofxXmlSettings.h">
 			<Option virtualFolder="addons/ofxXmlSettings/src" />
 		</Unit>
+				<Unit filename="../../../addons/ofxCinderTimeline/src/ofxCinderTimeline.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/src" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/src/cinder/TimelineItem.cpp">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/src/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/src/cinder/Timeline.cpp">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/src/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/src/cinder/CinderMath.cpp">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/src/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/src/cinder/Tween.cpp">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/src/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/Cinder.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/Tween.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/Easing.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/TimelineItem.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/Timeline.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/CinderMath.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
+		<Unit filename="../../../addons/ofxCinderTimeline/libs/cinder/include/cinder/Function.h">
+			<Option virtualFolder="addons/ofxCinderTimeline/libs/cinder/include/cinder" />
+		</Unit>
 		<Unit filename="config.make">
 			<Option virtualFolder="build config" />
 		</Unit>
@@ -340,10 +376,10 @@
 			<Option virtualFolder="src/" />
 		</Unit>
 		<Unit filename="src/hypFlockMng.cpp">
-			<Option virtualFolder="src/" />
+			<Option virtualFolder="src/flocking/" />
 		</Unit>
 		<Unit filename="src/hypFlockMng.h">
-			<Option virtualFolder="src/" />
+			<Option virtualFolder="src/flocking/" />
 		</Unit>
 		<Unit filename="src/hypGamePad.cpp">
 			<Option virtualFolder="src/" />
@@ -356,6 +392,24 @@
 		</Unit>
 		<Unit filename="src/hypGameloop.h">
 			<Option virtualFolder="src/" />
+		</Unit>
+		<Unit filename="src/hypModelMng.cpp">
+			<Option virtualFolder="src/model/" />
+		</Unit>
+		<Unit filename="src/hypModelMng.h">
+			<Option virtualFolder="src/model/" />
+		</Unit>
+		<Unit filename="src/hypModelPad.cpp">
+			<Option virtualFolder="src/model/" />
+		</Unit>
+		<Unit filename="src/hypModelPad.h">
+			<Option virtualFolder="src/model/" />
+		</Unit>
+		<Unit filename="src/hypMouse.cpp">
+			<Option virtualFolder="src/model/" />
+		</Unit>
+		<Unit filename="src/hypMouse.h">
+			<Option virtualFolder="src/model/" />
 		</Unit>
 		<Unit filename="src/hypRenderMng.cpp">
 			<Option virtualFolder="src/" />

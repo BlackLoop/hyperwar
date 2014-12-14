@@ -15,6 +15,7 @@ public:
 	void Setup();
 	void Play(const std::string & name);
 	void PlayWeaponsAlea();
+	void PlayNextBackroundPlaylist();
 	void Update();
 private:
 

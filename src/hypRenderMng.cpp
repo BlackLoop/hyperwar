@@ -28,13 +28,21 @@ void hypRenderMng::Setup() {
 	ofSetVerticalSync(true);
 	ofEnableAlphaBlending();
  	ofEnableSmoothing();
-    //ofSetFullscreen(true);
+    ofSetFullscreen(true);
 
-	hypRenderMng::LoadbackgroundImages("background");
+	LoadbackgroundImages("background");
+	LoadCreaturesImages("creature300");
+    LoadBloodImages("blood");
+    hypAssetMng::Instance()->LoadAsset("bombs.png");
 
 	hypFlockMng::Instance()->Setup();
 
 	hypAssetMng::Instance()->LoadAsset("jumelles.png");
+
+    mTimeline = ofxCinderTimeline::Timeline::create();
+    mTimeline->stepTo(ofGetElapsedTimef());
+
+    m_displayBinocular = true;
 
 }
 
@@ -42,11 +50,12 @@ void hypRenderMng::Update()
 {
     m_hypAnimationMng.Update();
  	hypFlockMng::Instance()->Update();
+ 	mTimeline->stepTo(ofGetElapsedTimef());
 }
 
 void hypRenderMng::Render()
 {
-    ofClear(1, 1, 1, 0);
+    ofClear(255, 255, 255, 255);
 
 
     switch (hypGameloop::Instance()->GetEStage())
@@ -119,6 +128,7 @@ void hypRenderMng::RenderPlay()
                     s_zoom);
         RenderBackground();
         RenderAnimations();
+        RenderCreatures();
     ofPopMatrix();
     RenderOverlay();
 
@@ -152,7 +162,7 @@ void hypRenderMng::RenderFlock()
     hypFlockMng::Instance()->Render();
 }
 
-void hypRenderMng::LoadbackgroundImages(string dirName)
+void hypRenderMng::LoadbackgroundImages(const string & dirName)
 {
     ofDirectory dir;
 
@@ -172,10 +182,42 @@ void hypRenderMng::LoadbackgroundImages(string dirName)
     else printf("Could not find folder for background\n");
 }
 
-void hypRenderMng::LoadSequencesImages(string dirName)
+void hypRenderMng::LoadCreaturesImages(const string & dirName)
 {
+    ofDirectory dir;
 
+    int nFiles = dir.listDir( dirName );
+    dir.sort();
+
+    if(nFiles) {
+        for(int i=0; i<dir.numFiles(); i++) {
+            string filePath = dir.getPath(i);
+            m_CreaturesImages.push_back(ImagePos(hypAssetMngSingleton::Instance()->LoadAsset(filePath), ofVec2f(ofRandom(0.f, BACKGROUND_SIZE_X),ofRandom(0.f, BACKGROUND_SIZE_Y))));
+            //m_CreaturesImages.back().m_imagePtr->setImageType(OF_IMAGE_GRAYSCALE);
+            cout << "loaded" << filePath << '\n';
+        }
+    }
+    else printf("Could not find folder for creature\n");
 }
+
+void hypRenderMng::LoadBloodImages(const string & dirName)
+{
+    ofDirectory dir;
+
+    int nFiles = dir.listDir( dirName );
+    dir.sort();
+
+    if(nFiles) {
+        for(int i=0; i<dir.numFiles(); i++) {
+            string filePath = dir.getPath(i);
+            m_bloodImages.push_back(hypAssetMngSingleton::Instance()->LoadAsset(filePath));
+            cout << "loaded" << filePath << '\n';
+        }
+    }
+    else printf("Could not find folder for creature\n");
+}
+
+
 /*
 // MOTION DEVICES
 // MOUSE
@@ -245,6 +287,63 @@ ofVec3f hypRenderMng::moveEase( ofVec3f toEase, float factZ, float factXY, float
 
 void hypRenderMng::RenderOverlay()
 {
-    hypAssetMng::Instance()->GetAsset("jumelles.png")->draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
 
+    RenderBlood();
+    RenderBomb();
+
+    if(m_displayBinocular)
+    {
+        ofSetColor(255,255,255,255);
+        hypAssetMng::Instance()->GetAsset("jumelles.png")->draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
+    }
+}
+
+void hypRenderMng::RenderCreatures()
+{
+    ofSetColor(255,255,255,255);
+   for ( vector< ImagePos >::iterator iter = m_CreaturesImages.begin() ; iter != m_CreaturesImages.end() ; ++iter)
+   {
+        if(iter->m_imagePtr) iter->m_imagePtr->draw(iter->m_pos);
+   }
+}
+
+
+//BLOOD
+void hypRenderMng::InitBloodAnim()
+{
+   // m_alphaBlood.stop();
+    timeline().apply(&m_alphaBlood, 150.f, 0.5f, ofxCinderTimeline::EaseOutCubic());
+    timeline().appendTo(&m_alphaBlood, 150.f, 0.5f);
+    timeline().appendTo(&m_alphaBlood, 0.f, 0.5f, ofxCinderTimeline::EaseOutCubic());
+    m_BloodImageIndex++;
+    m_BloodImageIndex %= m_bloodImages.size();
+}
+
+void hypRenderMng::RenderBlood()
+{
+     if (m_alphaBlood.value() == 0.f && !m_bloodImages.at(m_BloodImageIndex)) return;
+
+    ofSetColor(255,255,255,m_alphaBlood.value());
+    ofPushMatrix();
+    ofTranslate( ofGetWindowWidth()*0.5f, ofGetWindowHeight()*0.5f);
+    //scale here
+    //translate here
+    m_bloodImages.at(m_BloodImageIndex)->draw(-0.5f * m_bloodImages.at(m_BloodImageIndex)->getWidth(), -0.5f * m_bloodImages.at(m_BloodImageIndex)->getHeight() ); // move pivot to center
+    ofPopMatrix();
+}
+
+// BOMB
+void hypRenderMng::InitBombAnim()
+{
+    //m_alphaBomb.stop();
+    timeline().apply(&m_alphaBomb, 255.f, 1.0f, ofxCinderTimeline::EaseOutCubic());
+    timeline().appendTo(&m_alphaBomb, 255.f, 1.f);
+    timeline().appendTo(&m_alphaBomb, 0.f, 1.0f, ofxCinderTimeline::EaseOutCubic());
+}
+
+void hypRenderMng::RenderBomb()
+{
+    if (m_alphaBomb.value() == 0.f ) return;
+    ofSetColor(255,255,255,m_alphaBomb.value());
+    hypAssetMng::Instance()->GetAsset("bombs.png")->draw(0,0,ofGetWindowWidth(), ofGetWindowHeight());
 }

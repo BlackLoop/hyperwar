@@ -2,3 +2,4 @@ ofxOsc
 ofxXmlSettings
 ofxGamepad
 ofxNSWindower
+ofxCinderTimeline

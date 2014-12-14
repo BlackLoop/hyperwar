@@ -1,6 +1,7 @@
 #include "hypGameloop.h"
-#include  "hypSoundMng.h"
+#include "hypSoundMng.h"
 #include "hypModelMng.h"
+#include "hypRenderMng.h"
 
 hypGameloop::hypGameloop() :
     	m_eStage(EStage_PLAY)
@@ -64,7 +65,8 @@ void hypGameloop::onScenario0()
 void hypGameloop::onScenario1()
 {
     cout<<"onScenario1()"<<endl;
-    hypSoundMngSingleton::Instance()->PlayWeaponsAlea();
+    hypRenderMngSingleton::Instance()->InitBombAnim();
+    hypSoundMngSingleton::Instance()->Play("bomb");
 }
 
 void hypGameloop::onScenario2()
@@ -77,23 +79,26 @@ void hypGameloop::onScenario3()
 {
     cout<<"onScenario3()"<<endl;
     hypSoundMngSingleton::Instance()->PlayWeaponsAlea();
+    hypRenderMngSingleton::Instance()->InitBloodAnim();
 }
 
 void hypGameloop::onScenario4()
 {
     cout<<"onScenario4()"<<endl;
-    hypSoundMngSingleton::Instance()->PlayWeaponsAlea();
+    hypSoundMngSingleton::Instance()->PlayNextBackroundPlaylist();
 }
 
 void hypGameloop::onScenario5()
 {
     cout<<"onScenario5()"<<endl;
+    hypRenderMngSingleton::Instance()->m_displayBinocular = !hypRenderMngSingleton::Instance()->m_displayBinocular;
     hypSoundMngSingleton::Instance()->PlayWeaponsAlea();
 }
 
 void hypGameloop::onScenario6()
 {
     cout<<"onScenario6()"<<endl;
+    hypSoundMngSingleton::Instance()->Play("siren");
     hypSoundMngSingleton::Instance()->PlayWeaponsAlea();
 }
 

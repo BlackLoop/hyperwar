@@ -18,8 +18,8 @@
 
 
 //#define USE3DPAD
-#define USEMOUSE
-//#define USEGAMEPAD
+//#define USEMOUSE
+#define USEGAMEPAD
 
 
 static float s_fCurrentX = -fOverflowX/2.f;

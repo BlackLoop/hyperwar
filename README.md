@@ -34,6 +34,8 @@ ofxNsWindower : https://github.com/whg/ofxNSWindower
 
 ofxGamePad : https://github.com/underdoeg/ofxGamepad
 
+ofxCinderTimeline : https://github.com/pizthewiz/ofxCinderTimeline.git
+
 
 Testé sur Linux 64 bits Ubuntu avec openframeworks 8.4 pour linux 64 bits
 

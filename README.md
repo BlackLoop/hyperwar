@@ -1,4 +1,5 @@
 ➔ H Y P E R W A R [01] 
+
 ━━━━━━━━━━
 «Les Méga-Structures environnantes,.., la découverte du béton armé et autres matériaux durables, l’architecture utilitaire, le domaine publique, la politique de protections de biens sociaux, l’allaitement communautaire,…, le confinement,…, TOUT! Tout était couru d’avance!
 La solution émise par les autorités fut radicale,…, l’état souverain donna l’ordre d’établir ce qui convenait au mieux pour tous: le COUVRE-FEU.»
@@ -8,12 +9,15 @@ La solution émise par les autorités fut radicale,…, l’état souverain donn
 Accompagnant l’exposition de la fresque originale, la Galerie LAZER QUEST propose une installation interactive animée et sonore et sertie dans les décors réalisés par l’artiste dans le cadre de sa résidence… une immersion dans l’espace d’HYPERWAR. 
 
 
-➔ H Y P E R W A R [01] c’est une installation interactive en collaboration avec la Black Loop, le Lazer Quest et de la cellule d’animation Bruxelloise* dans le cadre de la résidence de l’artiste au sein du Lazer Quest et de La Gare Expérimentale, ainsi que des œuvres originales, des impressions et les parutions de Super-Structure !
+➔ H Y P E R W A R [01] c
+
+’est une installation interactive en collaboration avec la Black Loop, le Lazer Quest et de la cellule d’animation Bruxelloise* dans le cadre de la résidence de l’artiste au sein du Lazer Quest et de La Gare Expérimentale, ainsi que des œuvres originales, des impressions et les parutions de Super-Structure !
 
 Pour plus d'infos :
 http://lazerquestgalerie.tumblr.com/
 
 ➔ C O D E
+
 Ce code n'est pas générique pour l'instant, il fonctionne avec les médias spécifiques à hyperwar (non inclus dans github, il faut demander les medias à la blackloop pour un fonctionnement correcte)
 
 

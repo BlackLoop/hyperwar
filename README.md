@@ -13,8 +13,9 @@ Accompagnant l’exposition de la fresque originale, la Galerie LAZER QUEST prop
 Pour plus d'infos :
 http://lazerquestgalerie.tumblr.com/
 
-hyperwar
-========
+➔ C O D E
+Ce code n'est pas générique pour l'instant, il fonctionne avec les médias spécifiques à hyperwar (non inclus dans github, il faut demander les medias à la blackloop pour un fonctionnement correcte)
+
 
 Utilisation de openframeworks :
 
@@ -58,7 +59,5 @@ Mettre repo https://github.com/BlackLoop/hyperwar.git dans le répertoire myApps
 
 ex : home/colin/dev/of_v0.8.4_linux64_release/apps/myApps/hyperwar
 
-Sons : 
-https://drive.google.com/file/d/0B_A6WCKEp7vraWlqaUZ1clpUc2s/view?usp=sharing
 
 à mettre dans bin/data/sons/name.wav
